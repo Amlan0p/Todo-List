@@ -2,6 +2,17 @@
 
 A task manager where users sign up, log in, and manage their own to-do cards.
 
+---
+
+<p align="center">
+  <a href="https://todos-app-2gcd.onrender.com">
+    <img src="https://img.shields.io/badge/LIVE_DEMO-Visit_TODOS-38bdf8?style=for-the-badge&logo=render&logoColor=white" alt="Live Demo">
+  </a>
+</p>
+
+---
+
+
 ## Features
 - Register and log in (passwords hashed with bcrypt, sessions via JWT)
 - Create, view, edit, delete tasks, and change status (Pending / Completed / Expired)
