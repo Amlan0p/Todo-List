@@ -1,10 +1,8 @@
-# Render Blueprint: one web service serves both the frontend and API,
-# plus a managed PostgreSQL database. The browser can use relative API paths,
-# so there is no backend URL placeholder to edit after deployment.
 services:
   - type: web
     name: todos-app
     runtime: node
+    plan: free
     rootDir: backend
     buildCommand: npm install
     startCommand: npm start
