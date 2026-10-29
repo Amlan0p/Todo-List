@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard · To-Do List</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+
+    <div class="topbar glass-panel">
+      <div class="brand">
+        <span class="dot"></span>
+        <span>To-Do List</span>
+      </div>
+      <div class="user-info">
+        <span class="greeting">Hi, <strong id="userName">there</strong></span>
+        <button class="btn btn-logout" id="logoutBtn">Log out</button>
+      </div>
+    </div>
+
+    <div class="page-heading">
+      <h1>Your catalog</h1>
+      <p>File a new card, stamp its status, and keep the drawer current.</p>
+    </div>
+
+    <div id="alertBox" class="alert alert-success"></div>
+
+    <!-- Create Todo -->
+    <div class="create-panel glass-panel">
+      <h2>File a new card</h2>
+      <form id="createForm" class="create-form" novalidate>
+        <div class="form-group full" id="titleGroup">
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title" placeholder="e.g. Go to Gym" />
+          <span class="field-error">Title is required.</span>
+        </div>
+
+        <div class="form-group full" id="descriptionGroup">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" placeholder="e.g. Workout for 1 hour"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="status">Status</label>
+          <select id="status" name="status">
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
+            <option value="Expired">Expired</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="createBtn">
+          <span class="spinner"></span>
+          <span class="btn-label">Add Task</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- Filter -->
+    <div class="filter-bar">
+      <button class="filter-chip active" data-filter="All">All</button>
+      <button class="filter-chip" data-filter="Pending">Pending</button>
+      <button class="filter-chip" data-filter="Completed">Completed</button>
+      <button class="filter-chip" data-filter="Expired">Expired</button>
+    </div>
+
+    <!-- Todo list -->
+    <div class="todo-grid" id="todoGrid">
+      <!-- Todo cards injected by js/todo.js -->
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal-overlay" id="editModal">
+    <div class="modal-box glass-panel">
+      <h2>Edit task</h2>
+      <form id="editForm" novalidate>
+        <input type="hidden" id="editId" />
+        <div class="form-group" id="editTitleGroup">
+          <label for="editTitle">Title</label>
+          <input type="text" id="editTitle" name="editTitle" />
+          <span class="field-error">Title is required.</span>
+        </div>
+        <div class="form-group">
+          <label for="editDescription">Description</label>
+          <textarea id="editDescription" name="editDescription"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="editStatus">Status</label>
+          <select id="editStatus" name="editStatus">
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
+            <option value="Expired">Expired</option>
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="cancelEditBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="saveEditBtn">
+            <span class="spinner"></span>
+            <span class="btn-label">Save Changes</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/todo.js"></script>
+</body>
+</html>

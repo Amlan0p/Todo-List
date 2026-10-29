@@ -1,0 +1,761 @@
+/* ============================================================
+   To-Do List — "Card Catalog" Design System
+   Concept: an index-card catalog drawer. Tasks are cards filed
+   on a felt desk, statuses are hand-stamped in ink.
+   Palette: forest desk green + cream cardstock + stamp red
+   Type: 'Zilla Slab' (display/labels) + 'Courier Prime' (body/data)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap');
+
+:root {
+  --desk-1: #1a2721;
+  --desk-2: #223229;
+  --desk-3: #2a3d31;
+
+  --card: #f4eedc;
+  --card-alt: #efe6cd;
+  --card-line: rgba(43, 33, 24, 0.14);
+  --card-edge: rgba(43, 33, 24, 0.28);
+
+  --ink: #2b2118;
+  --ink-soft: #6b5e4c;
+  --ink-faint: #9a8c74;
+
+  --stamp-red: #a83e28;
+  --stamp-red-dark: #872f1c;
+  --brass: #a9873f;
+
+  --pending: #a6740a;
+  --pending-bg: rgba(166, 116, 10, 0.14);
+  --completed: #2f6f4b;
+  --completed-bg: rgba(47, 111, 75, 0.14);
+  --expired: #a83e28;
+  --expired-bg: rgba(168, 62, 40, 0.14);
+
+  --danger: #a83e28;
+  --radius-lg: 4px;
+  --radius-md: 3px;
+  --radius-sm: 2px;
+
+  --shadow-card: 0 1px 0 rgba(0,0,0,0.05), 0 10px 24px rgba(10, 14, 11, 0.4);
+  --shadow-stamp: 3px 3px 0 rgba(43, 33, 24, 0.9);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body { height: 100%; }
+
+body {
+  font-family: 'Courier Prime', 'Courier New', monospace;
+  color: var(--ink);
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(255,255,255,0.03), transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(255,255,255,0.03), transparent 40%),
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 6px),
+    linear-gradient(160deg, var(--desk-2) 0%, var(--desk-1) 100%);
+  background-attachment: fixed;
+  position: relative;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: 'Zilla Slab', serif;
+  letter-spacing: -0.01em;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ---------- Card base (formerly "glass panel") ---------- */
+.glass-panel {
+  background: var(--card);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 27px,
+    var(--card-line) 28px
+  );
+  border: 1px solid var(--card-edge);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  position: relative;
+}
+
+/* punched filing hole, top-left, like an index card */
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--desk-2);
+  border: 1px solid rgba(43, 33, 24, 0.35);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+}
+
+/* ============================================================
+   Auth pages (login / signup)
+   ============================================================ */
+.auth-wrapper {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 44px 40px 34px 44px;
+  animation: rise 0.5s ease both;
+  transform: rotate(-0.4deg);
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+
+.auth-brand .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--stamp-red);
+  box-shadow: 0 0 0 3px rgba(168, 62, 40, 0.18);
+}
+
+.auth-brand span {
+  font-family: 'Zilla Slab', serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.auth-card h1 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--ink);
+}
+
+.auth-card p.subtitle {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  margin-bottom: 26px;
+  font-style: italic;
+}
+
+.form-group {
+  margin-bottom: 18px;
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  font-family: 'Zilla Slab', serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 4px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--card-edge);
+  border-radius: 0;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input::placeholder {
+  color: var(--ink-faint);
+}
+
+.form-group input:focus {
+  border-bottom: 1px solid var(--stamp-red);
+  box-shadow: 0 1px 0 0 var(--stamp-red);
+}
+
+.form-group .field-error {
+  display: none;
+  color: var(--danger);
+  font-size: 0.75rem;
+  margin-top: 5px;
+}
+
+.form-group.has-error input {
+  border-bottom: 1px solid var(--danger);
+}
+
+.form-group.has-error .field-error {
+  display: block;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 22px;
+  font-family: 'Zilla Slab', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.btn:active { transform: translate(2px, 2px); box-shadow: none !important; }
+
+.btn-primary {
+  width: 100%;
+  color: var(--card);
+  background: var(--stamp-red);
+  border-color: var(--ink);
+  box-shadow: var(--shadow-stamp);
+  margin-top: 10px;
+}
+
+.btn-primary:hover {
+  background: var(--stamp-red-dark);
+}
+
+.btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.auth-switch a {
+  color: var(--stamp-red);
+  font-weight: 700;
+  border-bottom: 1px solid currentColor;
+}
+
+.alert {
+  display: none;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  margin-bottom: 18px;
+  border-left: 3px solid transparent;
+}
+
+.alert.show { display: block; animation: rise 0.3s ease both; }
+
+.alert-error {
+  background: rgba(168, 62, 40, 0.1);
+  border-left-color: var(--stamp-red);
+  color: var(--stamp-red-dark);
+}
+
+.alert-success {
+  background: rgba(47, 111, 75, 0.1);
+  border-left-color: var(--completed);
+  color: var(--completed);
+}
+
+/* ============================================================
+   Dashboard
+   ============================================================ */
+.app-shell {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding: 28px 24px 60px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 26px;
+  margin-bottom: 30px;
+  animation: rise 0.5s ease both;
+  background: var(--card-alt);
+}
+
+.topbar .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar .brand .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--stamp-red);
+  box-shadow: 0 0 0 3px rgba(168, 62, 40, 0.18);
+}
+
+.topbar .brand span {
+  font-family: 'Zilla Slab', serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.topbar .user-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.topbar .user-info .greeting {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.topbar .user-info .greeting strong {
+  color: var(--ink);
+}
+
+.btn-logout {
+  padding: 8px 16px;
+  font-size: 0.72rem;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--ink);
+}
+
+.btn-logout:hover {
+  background: var(--stamp-red);
+  border-color: var(--ink);
+  color: var(--card);
+}
+
+.page-heading {
+  margin-bottom: 22px;
+  animation: rise 0.55s ease both;
+  padding-left: 4px;
+}
+
+.page-heading h1 {
+  font-size: 1.75rem;
+  margin-bottom: 4px;
+  color: var(--card);
+}
+
+.page-heading p {
+  color: rgba(244, 238, 220, 0.6);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+/* Create-todo panel */
+.create-panel {
+  padding: 28px 28px 24px 32px;
+  margin-bottom: 32px;
+  animation: rise 0.6s ease both;
+}
+
+.create-panel h2 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+  margin-bottom: 18px;
+  font-weight: 600;
+}
+
+.create-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 18px;
+}
+
+.create-form .form-group.full {
+  grid-column: 1 / -1;
+}
+
+.create-form textarea {
+  width: 100%;
+  padding: 10px 4px;
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--card-edge);
+  border-radius: 0;
+  resize: vertical;
+  min-height: 60px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.create-form textarea:focus {
+  border-bottom: 1px solid var(--stamp-red);
+}
+
+.create-form select {
+  width: 100%;
+  padding: 10px 4px;
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--card-edge);
+  border-radius: 0;
+  outline: none;
+  cursor: pointer;
+}
+
+.create-form select option {
+  background: var(--card);
+  color: var(--ink);
+}
+
+.create-form .btn-primary {
+  grid-column: 1 / -1;
+  width: auto;
+  justify-self: start;
+  padding: 11px 30px;
+}
+
+/* Filter bar — styled as catalog drawer tabs */
+.filter-bar {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+  animation: rise 0.65s ease both;
+}
+
+.filter-chip {
+  padding: 9px 18px 8px;
+  font-family: 'Zilla Slab', serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(244, 238, 220, 0.55);
+  background: rgba(244, 238, 220, 0.06);
+  border: 1px solid rgba(244, 238, 220, 0.14);
+  border-bottom: none;
+  border-radius: 3px 3px 0 0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.filter-chip:hover {
+  background: rgba(244, 238, 220, 0.12);
+  color: var(--card);
+}
+
+.filter-chip.active {
+  background: var(--card);
+  border-color: var(--card);
+  color: var(--ink);
+}
+
+/* Todo grid + cards */
+.todo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.todo-card {
+  padding: 20px 20px 18px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  animation: rise 0.4s ease both;
+}
+
+.todo-card:nth-child(3n+1) { transform: rotate(-0.5deg); }
+.todo-card:nth-child(3n+2) { transform: rotate(0.4deg); }
+.todo-card:nth-child(3n+3) { transform: rotate(-0.2deg); }
+
+.todo-card:hover {
+  transform: translateY(-4px) rotate(0deg);
+  box-shadow: 0 4px 0 rgba(0,0,0,0.05), 0 18px 34px rgba(10, 14, 11, 0.5);
+}
+
+.todo-card .card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.todo-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  word-break: break-word;
+  color: var(--ink);
+}
+
+.status-badge {
+  flex-shrink: 0;
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  font-family: 'Zilla Slab', serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  border: 1.5px solid currentColor;
+  transform: rotate(-4deg);
+  mix-blend-mode: multiply;
+}
+
+.status-badge.pending {
+  color: var(--pending);
+  background: var(--pending-bg);
+}
+
+.status-badge.completed {
+  color: var(--completed);
+  background: var(--completed-bg);
+}
+
+.status-badge.expired {
+  color: var(--expired);
+  background: var(--expired-bg);
+}
+
+.todo-card p.desc {
+  color: var(--ink-soft);
+  font-size: 0.84rem;
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+.todo-card .card-meta {
+  font-size: 0.7rem;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.todo-card .card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px dashed var(--card-edge);
+}
+
+.icon-btn {
+  flex: 1;
+  padding: 7px 10px;
+  font-family: 'Zilla Slab', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--card-edge);
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.icon-btn.edit:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--card);
+}
+
+.icon-btn.delete:hover {
+  background: var(--stamp-red);
+  border-color: var(--stamp-red);
+  color: var(--card);
+}
+
+/* Quick status-cycle select inside card */
+.status-select {
+  font-family: inherit;
+  font-size: 0.72rem;
+  padding: 6px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--card-edge);
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.status-select option {
+  background: var(--card);
+  color: var(--ink);
+}
+
+/* Empty state */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(244, 238, 220, 0.4);
+}
+
+.empty-state .icon {
+  font-size: 2.2rem;
+  margin-bottom: 12px;
+  opacity: 0.6;
+}
+
+.empty-state p {
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+/* Modal (edit todo) */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 14, 11, 0.6);
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  padding: 20px;
+}
+
+.modal-overlay.show {
+  display: flex;
+  animation: fadeIn 0.2s ease both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 440px;
+  padding: 30px 30px 26px 34px;
+  animation: rise 0.3s ease both;
+}
+
+.modal-box h2 {
+  font-size: 1.15rem;
+  margin-bottom: 18px;
+  color: var(--ink);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.modal-actions .btn-primary {
+  margin-top: 0;
+}
+
+.btn-secondary {
+  flex: 1;
+  padding: 12px 20px;
+  font-family: 'Zilla Slab', serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid var(--card-edge);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--card);
+}
+
+/* Loading spinner */
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(244, 238, 220, 0.4);
+  border-top-color: var(--card);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: none;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.btn.loading .spinner { display: inline-block; }
+.btn.loading .btn-label { opacity: 0.85; }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .create-form { grid-template-columns: 1fr; }
+  .create-form .btn-primary { width: 100%; justify-self: stretch; }
+  .topbar { flex-wrap: wrap; gap: 12px; padding: 14px 18px; }
+  .app-shell { padding: 20px 14px 50px; }
+  .auth-card { padding: 34px 26px 26px 30px; }
+  .todo-card { transform: none !important; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Visible keyboard focus */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--stamp-red);
+  outline-offset: 2px;
+}

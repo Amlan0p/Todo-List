@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up · To-Do List</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="auth-wrapper">
+    <div class="auth-card glass-panel">
+      <div class="auth-brand">
+        <span class="dot"></span>
+        <span>To-Do List</span>
+      </div>
+
+      <h1>Open a new file</h1>
+      <p class="subtitle">Set up your card catalog in seconds.</p>
+
+      <div id="alertBox" class="alert alert-error"></div>
+
+      <form id="signupForm" novalidate>
+        <div class="form-group" id="nameGroup">
+          <label for="name">Full name</label>
+          <input type="text" id="name" name="name" placeholder="John Doe" autocomplete="name" />
+          <span class="field-error">Please enter your name.</span>
+        </div>
+
+        <div class="form-group" id="emailGroup">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" />
+          <span class="field-error">Please enter a valid email address.</span>
+        </div>
+
+        <div class="form-group" id="passwordGroup">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="At least 6 characters" autocomplete="new-password" />
+          <span class="field-error">Password must be at least 6 characters.</span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="signupBtn">
+          <span class="spinner"></span>
+          <span class="btn-label">Sign Up</span>
+        </button>
+      </form>
+
+      <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
